@@ -40,6 +40,20 @@
             @enderror
         </div>
 
+        <div class="mb-3">
+            <label for="category_id" class="form-label mt-5">Inserisci una categoria</label>
+            <select class="form-control" name="category_id" id="category_id">
+            <option>scegli una categoria:</option>
+            @foreach ($categories as $category)
+                <option 
+                    @if($category->id == old('category_id', $post->category_id)) selected @endif 
+                    value="{{$category->id}}"
+                >{{$category->name}}
+                </option>
+            @endforeach
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-success mt-4">submit</button>
         <button type="reset" class="btn btn-secondary mt-4">reset</button>
     </form>

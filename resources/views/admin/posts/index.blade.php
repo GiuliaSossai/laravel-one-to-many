@@ -13,7 +13,8 @@
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">titolo</th>
-                <th scope="col" colspan="4">testo</th>
+                <th scope="col">testo</th>
+                <th scope="col" colspan="4">categoria</th>
                 <!-- <th scope="col">slug</th> -->
             </tr>
         </thead>
@@ -23,6 +24,13 @@
                     <th scope="row">{{ $post->id }}</th>
                     <td>{{ $post->title }}</td>
                     <td>{{ $post->content }}</td>
+                    <td>
+                        @if ($post->category)
+                            {{$post->category->name}}
+                        @else
+                            -
+                        @endif
+                    </td>
                     <!-- <td>{{ $post->slug }}</td> -->
                     <td><a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary">show</a></td>
                     <td><a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-warning">edit</a></td>
@@ -42,8 +50,24 @@
         </tbody>
     </table>
 
-    <div>
+    <div class="my-4">
         {{ $posts->links() }}
+    </div>
+
+    <div>
+        @foreach ($categories as $category)
+        <h2 class="my-3">{{ $category->name }}</h2>
+        <ul>
+            @forelse ($category->posts as $post->category)
+                <li>
+                    <a href="{{ route('admin.posts.show', $post) }}">{{ $post->category->title }}</a>
+                </li>    
+            @empty
+                <li>Nessun post da visualizzare</li>
+            @endforelse
+        </ul>
+            
+        @endforeach
     </div>
         
     

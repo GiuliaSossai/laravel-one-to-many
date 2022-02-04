@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
@@ -15,9 +16,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->paginate(4);   
+        $posts = Post::orderBy('id', 'desc')->paginate(4);
         
-        return view('admin.posts.index', compact('posts'));
+        $categories = Category::all();
+        
+        return view('admin.posts.index', compact('posts', 'categories'));
     }
 
     /**
@@ -27,7 +30,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        
+        return view('admin.posts.create', compact('categories'));
     }
 
     /**
@@ -89,9 +94,11 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::all();
+        
         $post = Post::find($id);
         if($post){
-           return view('admin.posts.edit', compact('post')); 
+           return view('admin.posts.edit', compact('post', 'categories')); 
         }
         abort(404, 'Il post che hai cercato non esiste');
     }
